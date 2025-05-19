@@ -1,3 +1,5 @@
+param storageAccountName string
+
 resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
     name: 'myVnet'
     location: resourceGroup().location
@@ -42,6 +44,44 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2024-05-01' = {
             }
         ]
     }
+}
+
+//storage account
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
+  name: storageAccountName
+  location: resourceGroup().location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    supportsHttpsTrafficOnly: true
+  }
+}
+
+// file service
+resource fileService 'Microsoft.Storage/storageAccounts/fileServices@2022-09-01' = {
+  name: 'default'
+  parent: storageAccount
+  // properties: {
+  //   shareDefaultAccessTier: 'Hot'
+  // }
+}
+
+// file share
+resource fileShare 'Microsoft.Storage/storageAccounts/fileServices/shares@2022-09-01' = {
+  name: 'myfileshare'
+  parent: fileService
+  properties: {
+    shareQuota: 100
+  }
+}
+
+//storage sync service
+resource storageSyncService 'Microsoft.StorageSync/storageSyncServices@2022-09-01' = {
+  name: 'syncservice'
+  location: resourceGroup().location
 }
 
 module vm 'vm.bicep' = {

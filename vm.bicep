@@ -80,8 +80,24 @@ resource scriptExtension 'Microsoft.Compute/virtualMachines/extensions@2023-03-0
     typeHandlerVersion: '1.10'
     autoUpgradeMinorVersion: true
     settings: {
-      fileUris: ['./disableIESecurity.ps1']
+      fileUris: ['https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/disableIESecurity.ps1']
       commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File disableIESecurity.ps1'
+    }
+  }
+}
+
+resource scriptExtensionInstallAzureFileSyncAgent 'Microsoft.Compute/virtualMachines/extensions@2023-03-01' = {
+  name: 'script-extension-InstallAzureFileSyncAgent'
+  location: location
+  parent: vm
+  properties: {
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.10'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: ['https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/InstallAzureFileSyncAgent.ps1']
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File InstallAzureFileSyncAgent.ps1'
     }
   }
 }
