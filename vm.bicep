@@ -96,8 +96,8 @@ resource scriptExtensionInstallAzureFileSyncAgent 'Microsoft.Compute/virtualMach
     typeHandlerVersion: '1.10'
     autoUpgradeMinorVersion: true
     settings: {
-      fileUris: ['https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/InstallAzureFileSyncAgent.ps1']
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File InstallAzureFileSyncAgent.ps1'
+      fileUris: ['https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/installAzureFileSyncAgent.ps1']
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File installAzureFileSyncAgent.ps1'
     }
   }
 }
