@@ -37,9 +37,12 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-02-01' = {
   }
 }
 
-resource vm 'Microsoft.Compute/virtualMachines@2021-03-01' = {
+resource vm 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   name: vmName
   location: location
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     hardwareProfile: {
       vmSize: vmSize
@@ -89,3 +92,4 @@ resource scriptExtension 'Microsoft.Compute/virtualMachines/extensions@2023-03-0
     }
   }
 }
+output vmPrincipalId string = vm.identity.principalId

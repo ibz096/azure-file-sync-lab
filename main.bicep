@@ -95,3 +95,37 @@ module vm 'vm.bicep' = {
         vmSize: 'Standard_B2ms'
     }
 }
+
+resource customSyncRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' = {
+  name: guid(resourceGroup().id, 'Custom.StorageSync.RegistrationRole')
+  scope: resourceGroup()
+  properties: {
+    roleName: 'Custom Storage Sync Registration Role'
+    description: 'Allows limited access to register servers with Storage Sync Services'
+    type: 'CustomRole'
+    permissions: [
+      {
+        actions: [
+          'Microsoft.StorageSync/storageSyncServices/registeredServers/write'
+          'Microsoft.StorageSync/storageSyncServices/registeredServers/read'
+          'Microsoft.StorageSync/storageSyncServices/read'
+          'Microsoft.StorageSync/storageSyncServices/workflows/read'
+          'Microsoft.StorageSync/storageSyncServices/workflows/operations/read'
+        ]
+        notActions: []
+      }
+    ]
+    assignableScopes: [
+      resourceGroup().id
+    ]
+  }
+}
+
+resource syncRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageSyncService.id, vm.name, 'storage-sync-role')
+  scope: storageSyncService
+  properties: {
+    roleDefinitionId: customSyncRole.id
+    principalId: vm.outputs.vmPrincipalId
+  }
+}
