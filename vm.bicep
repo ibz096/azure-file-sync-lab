@@ -5,6 +5,8 @@ param adminUserName string
 @secure()
 param adminPassword string
 param vmSize string = 'Standard_B2ms'
+param resourceGroupName string = resourceGroup().name
+param storageSyncServiceName string
 
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2019-11-01' = {
   name: '${vmName}-public-ip'
@@ -87,8 +89,9 @@ resource scriptExtension 'Microsoft.Compute/virtualMachines/extensions@2023-03-0
         'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/disableIESecurity.ps1'
         'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/installAzureFileSyncAgent.ps1'
         'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/setup.ps1'
+        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/registerToStorageSyncService.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File setup.ps1'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File setup.ps1 -storageSyncServiceName ${storageSyncServiceName} -resourceGroupName ${resourceGroupName}'
     }
   }
 }

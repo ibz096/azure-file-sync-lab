@@ -93,6 +93,8 @@ module vm 'vm.bicep' = {
         adminUserName: 'adminUser'
         adminPassword: 'P@ssw0rd1234!'
         vmSize: 'Standard_B2ms'
+        resourceGroupName: resourceGroup().name
+        storageSyncServiceName: storageSyncService.name
     }
 }
 
