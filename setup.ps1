@@ -11,4 +11,4 @@ Install-PSResource -Name Az.Accounts, Az.StorageSync -AcceptLicense -Scope AllUs
 
 .\disableIESecurity.ps1
 .\installAzureFileSyncAgent.ps1
-.\registerToStorageSyncService -ResourceGroupName $ResourceGroupName -StorageSyncServiceName $StorageSyncServiceName
+.\registerToStorageSyncService.ps1 -ResourceGroupName $ResourceGroupName -StorageSyncServiceName $StorageSyncServiceName
