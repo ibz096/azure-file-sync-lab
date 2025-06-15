@@ -131,3 +131,16 @@ resource syncRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01'
     principalId: vm.outputs.vmPrincipalId
   }
 }
+
+module scriptExtension 'scriptExtension.bicep' = {
+  name: 'scriptDeploymnt'
+  dependsOn: [
+    syncRoleAssignment
+  ]
+  params: {
+    vmName: vm.name
+    location: resourceGroup().location
+    storageSyncServiceName: storageSyncService.name
+    resourceGroupName: resourceGroup().name
+  }
+}
