@@ -1,8 +1,9 @@
 param storageAccountName string
+param location string = resourceGroup().location
 
 resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
     name: 'myVnet'
-    location: resourceGroup().location
+    location: location
     properties: {
         addressSpace: {
             addressPrefixes: [
@@ -26,7 +27,7 @@ resource defaultSubnet 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' ={
 
 resource nsg 'Microsoft.Network/networkSecurityGroups@2024-05-01' = {
     name: 'myNsg'
-    location: resourceGroup().location
+    location: location
     properties: {
         securityRules: [
             {
@@ -50,7 +51,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2024-05-01' = {
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName
-  location: resourceGroup().location
+  location: location
   sku: {
     name: 'Standard_LRS'
   }
@@ -81,20 +82,18 @@ resource fileShare 'Microsoft.Storage/storageAccounts/fileServices/shares@2022-0
 //storage sync service
 resource storageSyncService 'Microsoft.StorageSync/storageSyncServices@2022-09-01' = {
   name: 'syncservice'
-  location: resourceGroup().location
+  location: location
 }
 
-module vm 'vm.bicep' = {
+module vm 'modules/vm.bicep' = {
     name: 'myVm'
     params: {
         vmName: 'myVm'
-        location: resourceGroup().location
+        location: location
         subnetId: defaultSubnet.id
         adminUserName: 'adminUser'
         adminPassword: 'P@ssw0rd1234!'
         vmSize: 'Standard_B2ms'
-        resourceGroupName: resourceGroup().name
-        storageSyncServiceName: storageSyncService.name
     }
 }
 
@@ -132,14 +131,14 @@ resource syncRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01'
   }
 }
 
-module scriptExtension 'scriptExtension.bicep' = {
+module scriptExtension 'modules/scriptExtension.bicep' = {
   name: 'scriptDeploymnt'
   dependsOn: [
     syncRoleAssignment
   ]
   params: {
     vmName: vm.name
-    location: resourceGroup().location
+    location: location
     storageSyncServiceName: storageSyncService.name
     resourceGroupName: resourceGroup().name
   }
