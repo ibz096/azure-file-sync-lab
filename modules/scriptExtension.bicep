@@ -13,10 +13,10 @@ resource scriptExtension 'Microsoft.Compute/virtualMachines/extensions@2022-11-0
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/disableIESecurity.ps1'
-        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/installAzureFileSyncAgent.ps1'
-        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/setup.ps1'
-        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/registerToStorageSyncService.ps1'
+        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/scripts/disableIESecurity.ps1'
+        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/scripts/installAzureFileSyncAgent.ps1'
+        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/scripts/setup.ps1'
+        'https://raw.githubusercontent.com/ibz096/azure-file-sync-lab/refs/heads/master/scripts/registerToStorageSyncService.ps1'
       ]
       commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File setup.ps1 -storageSyncServiceName ${storageSyncServiceName} -resourceGroupName ${resourceGroupName}'
     }
