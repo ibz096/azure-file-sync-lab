@@ -85,6 +85,12 @@ resource storageSyncService 'Microsoft.StorageSync/storageSyncServices@2022-09-0
   location: location
 }
 
+resource storageSyncServiceSyncGroup 'Microsoft.StorageSync/storageSyncServices/syncGroups@2022-09-01' = {
+  name: 'syncgroup'
+  parent: storageSyncService
+
+}
+
 module vm 'modules/vm.bicep' = {
     name: 'myVm'
     params: {
